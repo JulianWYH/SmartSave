@@ -582,6 +582,22 @@ section {
   color: var(--text-secondary);
 }
 
+.goal-badge {
+  background-color: var(--success-color);
+  color: white;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+}
+
+.empty-state {
+  text-align: center;
+  padding: var(--spacing-2xl);
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
 .goal-progress {
   margin-bottom: var(--spacing-lg);
 }
@@ -619,15 +635,38 @@ section {
 
 .ai-assistants-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--spacing-xl);
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--spacing-lg);
   margin-top: var(--spacing-2xl);
   justify-items: center;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .ai-assistant-circle {
-  width: 200px;
-  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  width: 100%;
+  max-width: 180px;
+}
+
+.ai-assistant-circle:hover .assistant-circle {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: var(--shadow-xl);
+}
+
+.ai-assistant-circle:active .assistant-circle {
+  transform: translateY(-3px) scale(1.02);
+}
+
+.assistant-circle {
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
   display: flex;
@@ -635,62 +674,54 @@ section {
   align-items: center;
   justify-content: center;
   text-align: center;
-  cursor: pointer;
   transition: all var(--transition-normal);
   box-shadow: var(--shadow-lg);
-  padding: var(--spacing-lg);
+  padding: var(--spacing-md);
   position: relative;
-  overflow: hidden;
-}
-
-.ai-assistant-circle:hover {
-  transform: translateY(-5px) scale(1.05);
-  box-shadow: var(--shadow-xl);
-}
-
-.ai-assistant-circle:active {
-  transform: translateY(-3px) scale(1.02);
+  margin-bottom: var(--spacing-sm);
 }
 
 .assistant-icon {
-  font-size: 2.5rem;
-  margin-bottom: var(--spacing-sm);
+  font-size: 2rem;
+  margin-bottom: var(--spacing-xs);
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .assistant-name {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-base);
   font-weight: 600;
   color: white;
-  margin-bottom: var(--spacing-xs);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  line-height: 1.2;
 }
 
 .assistant-description {
-  font-size: var(--font-size-sm);
-  color: rgba(255, 255, 255, 0.9);
-  line-height: 1.4;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  line-height: 1.3;
+  text-align: center;
+  max-width: 160px;
+  margin: 0 auto;
 }
 
 /* Specific assistant colors */
-.ai-assistant-circle[data-category="subscription"] {
+.ai-assistant-circle[data-category="subscription"] .assistant-circle {
   background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
 }
 
-.ai-assistant-circle[data-category="personal-care"] {
+.ai-assistant-circle[data-category="personal-care"] .assistant-circle {
   background: linear-gradient(135deg, #8B5CF6, #A78BFA);
 }
 
-.ai-assistant-circle[data-category="entertainment"] {
+.ai-assistant-circle[data-category="entertainment"] .assistant-circle {
   background: linear-gradient(135deg, var(--accent-color), var(--accent-light));
 }
 
-.ai-assistant-circle[data-category="food"] {
+.ai-assistant-circle[data-category="food"] .assistant-circle {
   background: linear-gradient(135deg, var(--alert-color), var(--alert-light));
 }
 
-.ai-assistant-circle[data-category="transport"] {
+.ai-assistant-circle[data-category="transport"] .assistant-circle {
   background: linear-gradient(135deg, #06B6D4, #67E8F9);
 }
 
@@ -1147,12 +1178,22 @@ section {
   }
   
   .ai-assistants-grid {
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--spacing-md);
+    max-width: 900px;
   }
   
-  .ai-assistant-circle {
-    width: 180px;
-    height: 180px;
+  .assistant-circle {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .assistant-icon {
+    font-size: 1.8rem;
+  }
+  
+  .assistant-name {
+    font-size: var(--font-size-sm);
   }
 }
 
@@ -1204,22 +1245,28 @@ section {
   }
   
   .ai-assistants-grid {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: var(--spacing-lg);
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-sm);
+    max-width: 600px;
   }
   
-  .ai-assistant-circle {
-    width: 160px;
-    height: 160px;
-    padding: var(--spacing-md);
+  .assistant-circle {
+    width: 100px;
+    height: 100px;
+    padding: var(--spacing-sm);
   }
   
   .assistant-icon {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
   
   .assistant-name {
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-xs);
+  }
+  
+  .assistant-description {
+    font-size: 0.65rem;
+    max-width: 120px;
   }
   
   .chat-modal {

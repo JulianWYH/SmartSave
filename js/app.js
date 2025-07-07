@@ -526,13 +526,21 @@ class SmartSaveApp {
                     </div>
                 </div>
                 ${!isCompleted ? `
-                    <button class="btn btn-accent btn-small" onclick="app.addToSavingsGoal(${goal.id})">
+                    <button class="btn btn-accent btn-small add-money-btn" data-goal-id="${goal.id}">
                         Add Money
                     </button>
                 ` : ''}
             `;
             
             goalsGrid.appendChild(goalCard);
+        });
+        
+        // Add event listeners to all "Add Money" buttons
+        document.querySelectorAll('.add-money-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const goalId = parseInt(e.target.dataset.goalId);
+                this.addToSavingsGoal(goalId);
+            });
         });
     }
     
