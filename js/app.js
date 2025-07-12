@@ -574,15 +574,7 @@ class SmartSaveApp {
             'transport': 'Transportation Consultant'
         };
         
-        const chatIconElement = document.getElementById('chatAssistantIcon');
-        
-        // Handle special case for subscription category with image
-        if (category === 'subscription') {
-            chatIconElement.innerHTML = '<img src="./assets/PhoneSub.png" alt="Phone Subscription" class="chat-assistant-image">';
-        } else {
-            chatIconElement.textContent = iconMap[category];
-        }
-        
+        document.getElementById('chatAssistantIcon').textContent = iconMap[category];
         document.getElementById('chatAssistantName').textContent = name;
         document.getElementById('chatAssistantSpecialty').textContent = specialtyMap[category];
         
