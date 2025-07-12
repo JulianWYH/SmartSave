@@ -687,6 +687,13 @@ section {
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
+.assistant-image {
+  width: 2rem;
+  height: 2rem;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
 .assistant-name {
   font-size: var(--font-size-base);
   font-weight: 600;
@@ -791,6 +798,12 @@ section {
   align-items: center;
   justify-content: center;
   font-size: var(--font-size-xl);
+}
+
+.chat-assistant-image {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
 }
 
 .chat-header h3 {
@@ -1192,6 +1205,11 @@ section {
     font-size: 1.8rem;
   }
   
+  .assistant-image {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+  
   .assistant-name {
     font-size: var(--font-size-sm);
   }
@@ -1260,6 +1278,11 @@ section {
     font-size: 1.5rem;
   }
   
+  .assistant-image {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
   .assistant-name {
     font-size: var(--font-size-xs);
   }
@@ -1281,6 +1304,11 @@ section {
   .chat-assistant-icon {
     width: 40px;
     height: 40px;
+  }
+  
+  .chat-assistant-image {
+    width: 24px;
+    height: 24px;
   }
   
   .chat-messages {
