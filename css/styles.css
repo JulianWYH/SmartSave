@@ -687,77 +687,18 @@ section {
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
-.assistant-name {
-  font-size: var(--font-size-base);
-  font-weight: 600;
-  color: white;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  line-height: 1.2;
+.assistant-image {
+  width: 2rem;
+  height: 2rem;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
-.assistant-description {
-  font-size: var(--font-size-xs);
-  color: var(--text-secondary);
-  line-height: 1.3;
-  text-align: center;
-  max-width: 160px;
-  margin: 0 auto;
-  width: 100%;
+.chat-assistant-image {
+  width: 24px;
+  height: 24px;
 }
 
-/* Specific assistant colors */
-.ai-assistant-circle[data-category="subscription"] .assistant-circle {
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
-}
-
-.ai-assistant-circle[data-category="personal-care"] .assistant-circle {
-  background: linear-gradient(135deg, #8B5CF6, #A78BFA);
-}
-
-.ai-assistant-circle[data-category="entertainment"] .assistant-circle {
-  background: linear-gradient(135deg, var(--accent-color), var(--accent-light));
-}
-
-.ai-assistant-circle[data-category="food"] .assistant-circle {
-  background: linear-gradient(135deg, var(--alert-color), var(--alert-light));
-}
-
-.ai-assistant-circle[data-category="transport"] .assistant-circle {
-  background: linear-gradient(135deg, #06B6D4, #67E8F9);
-}
-
-/* AI Assistant Link Styles */
-.ai-assistant-link {
-  text-decoration: none;
-  color: inherit;
-  display: block;
-  width: 100%;
-  outline: none; /* Remove focus outline */
-}
-
-.ai-assistant-link:hover,
-.ai-assistant-link:focus,
-.ai-assistant-link:visited,
-.ai-assistant-link:active {
-  text-decoration: none;
-  color: inherit;
-  outline: none; /* Remove focus outline on all states */
-}
-
-.ai-assistant-link .ai-assistant-circle {
-  transition: all var(--transition-normal);
-}
-
-.ai-assistant-link:hover .ai-assistant-circle .assistant-circle {
-  transform: translateY(-5px) scale(1.05);
-  box-shadow: var(--shadow-xl);
-}
-
-.ai-assistant-link:active .ai-assistant-circle .assistant-circle {
-  transform: translateY(-3px) scale(1.02);
-}
-
-<<<<<<< HEAD
 .chat-header {
   display: flex;
   align-items: center;
@@ -934,11 +875,11 @@ section {
     transform: scale(1);
     opacity: 1;
   }
-=======
+}
+
 /* Dark mode adjustments for links */
 [data-theme="dark"] .ai-assistant-link .assistant-description {
   color: var(--dark-text-secondary);
->>>>>>> e6fdfa6ed531aa275cd914d44eebb00427d5a2cc
 }
 
 /* Buttons */
@@ -1190,6 +1131,11 @@ section {
     font-size: 1.8rem;
   }
   
+  .assistant-image {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+  
   .assistant-name {
     font-size: var(--font-size-sm);
   }
@@ -1258,6 +1204,11 @@ section {
     font-size: 1.5rem;
   }
   
+  .assistant-image {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
   .assistant-name {
     font-size: var(--font-size-xs);
   }
@@ -1266,7 +1217,6 @@ section {
     font-size: 0.65rem;
     max-width: 120px;
   }
-<<<<<<< HEAD
   
   .chat-modal {
     width: 95%;
@@ -1282,6 +1232,11 @@ section {
     height: 40px;
   }
   
+  .chat-assistant-image {
+    width: 24px;
+    height: 24px;
+  }
+  
   .chat-messages {
     padding: var(--spacing-md);
   }
@@ -1289,8 +1244,6 @@ section {
   .chat-input-container {
     padding: var(--spacing-md);
   }
-=======
->>>>>>> e6fdfa6ed531aa275cd914d44eebb00427d5a2cc
 }
 
 @media (max-width: 480px) {
@@ -1373,4 +1326,48 @@ select:focus {
   * {
     box-shadow: none !important;
   }
+}
+
+/* Specific colors for each AI assistant circle */
+.ai-assistant-circle[data-category="subscription"] .assistant-circle {
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-light)); /* Dark blue to blue */
+}
+
+.ai-assistant-circle[data-category="personal-care"] .assistant-circle {
+  background: linear-gradient(135deg, #8B5CF6, #A78BFA); /* Purple to light purple */
+}
+
+.ai-assistant-circle[data-category="entertainment"] .assistant-circle {
+  background: linear-gradient(135deg, var(--accent-color), var(--accent-light)); /* Green to light green */
+}
+
+.ai-assistant-circle[data-category="food"] .assistant-circle {
+  background: linear-gradient(135deg, var(--alert-color), var(--alert-light)); /* Orange to light orange */
+}
+
+.ai-assistant-circle[data-category="transport"] .assistant-circle {
+  background: linear-gradient(135deg, #06B6D4, #67E8F9); /* Blue to light blue */
+}
+
+.ai-assistant-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.ai-assistant-link:hover,
+.ai-assistant-link:focus,
+.ai-assistant-link:active,
+.ai-assistant-link:visited {
+  text-decoration: none;
+  color: inherit;
+  outline: none;
+}
+
+.assistant-name {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  margin-top: var(--spacing-xs);
 }

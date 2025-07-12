@@ -56,9 +56,10 @@ class SmartSaveApp {
         document.getElementById('budgetForm').addEventListener('submit', (e) => this.saveBudget(e));
         
         // Expense tracking
+        this.addExpenseHandler = (e) => this.addExpense(e);
         document.getElementById('addExpenseBtn').addEventListener('click', () => this.toggleExpenseForm());
         document.getElementById('cancelExpenseBtn').addEventListener('click', () => this.hideExpenseForm());
-        document.getElementById('expenseForm').addEventListener('submit', (e) => this.addExpense(e));
+        document.getElementById('expenseForm').addEventListener('submit', this.addExpenseHandler);
         
         // Savings goals
         document.getElementById('addGoalBtn').addEventListener('click', () => this.addSavingsGoal());
@@ -221,9 +222,17 @@ class SmartSaveApp {
     }
     
     hideExpenseForm() {
-        document.getElementById('expenseFormContainer').style.display = 'none';
-        document.getElementById('expenseForm').reset();
-        document.getElementById('addExpenseBtn').innerHTML = '<i class="fas fa-plus"></i> Add Expense';
+        const form = document.getElementById('expenseForm');
+        const submitButton = form.querySelector('button[type="submit"]');
+        
+        // Check if we're in edit mode
+        if (submitButton.dataset.editingId) {
+            this.resetExpenseForm();
+        } else {
+            document.getElementById('expenseFormContainer').style.display = 'none';
+            document.getElementById('expenseForm').reset();
+            document.getElementById('addExpenseBtn').innerHTML = '<i class="fas fa-plus"></i> Add Expense';
+        }
     }
     
     addExpense(e) {
@@ -256,6 +265,95 @@ class SmartSaveApp {
         } else {
             this.showToast('Please fill in all required fields', 'error');
         }
+    }
+    
+    editExpense(expenseId) {
+        const expense = this.data.expenses.find(exp => exp.id === expenseId);
+        if (expense) {
+            // Populate the form with existing expense data
+            document.getElementById('expenseAmount').value = expense.amount;
+            document.getElementById('expenseCategory').value = expense.category;
+            document.getElementById('expenseDescription').value = expense.description;
+            
+            // Show the form
+            this.showExpenseForm();
+            
+            // Change the form to edit mode
+            const form = document.getElementById('expenseForm');
+            const submitButton = form.querySelector('button[type="submit"]');
+            submitButton.textContent = 'Update Expense';
+            submitButton.dataset.editingId = expenseId;
+            
+            // Update the add expense button text
+            document.getElementById('addExpenseBtn').innerHTML = '<i class="fas fa-minus"></i> Cancel Edit';
+            
+            // Modify form submit handler for editing
+            form.removeEventListener('submit', this.addExpenseHandler);
+            this.editExpenseHandler = (e) => this.updateExpense(e, expenseId);
+            form.addEventListener('submit', this.editExpenseHandler);
+        }
+    }
+    
+    updateExpense(e, expenseId) {
+        e.preventDefault();
+        const form = e.target;
+        const newAmount = parseFloat(form.expenseAmount.value);
+        const newCategory = form.expenseCategory.value;
+        const newDescription = form.expenseDescription.value || 'No description';
+        
+        if (newAmount > 0 && newCategory) {
+            const expense = this.data.expenses.find(exp => exp.id === expenseId);
+            if (expense) {
+                // Revert the old expense from category spending
+                this.data.categories[expense.category].spent -= expense.amount;
+                
+                // Update the expense
+                expense.amount = newAmount;
+                expense.category = newCategory;
+                expense.description = newDescription;
+                expense.date = new Date().toISOString(); // Update timestamp
+                
+                // Add the new expense to category spending
+                this.data.categories[newCategory].spent += newAmount;
+                
+                this.saveData();
+                this.updateUI();
+                this.resetExpenseForm();
+                this.showToast(`Updated expense to $${newAmount.toFixed(2)}`, 'success');
+                
+                // Check for budget alerts
+                this.checkBudgetAlerts(newCategory);
+            }
+        } else {
+            this.showToast('Please fill in all required fields', 'error');
+        }
+    }
+    
+    resetExpenseForm() {
+        const form = document.getElementById('expenseForm');
+        const submitButton = form.querySelector('button[type="submit"]');
+        
+        // Reset form
+        form.reset();
+        
+        // Reset submit button
+        submitButton.textContent = 'Add Expense';
+        delete submitButton.dataset.editingId;
+        
+        // Reset event listeners
+        if (this.editExpenseHandler) {
+            form.removeEventListener('submit', this.editExpenseHandler);
+            delete this.editExpenseHandler;
+        }
+        
+        // Re-add the original add expense handler
+        if (!this.addExpenseHandler) {
+            this.addExpenseHandler = (e) => this.addExpense(e);
+        }
+        form.addEventListener('submit', this.addExpenseHandler);
+        
+        // Hide form and reset button text
+        this.hideExpenseForm();
     }
     
     deleteExpense(expenseId) {
@@ -458,13 +556,44 @@ class SmartSaveApp {
                 </div>
                 <div class="expense-actions">
                     <span class="expense-amount">$${expense.amount.toFixed(2)}</span>
-                    <button class="btn btn-icon btn-secondary" onclick="app.deleteExpense(${expense.id})" title="Delete expense">
+                    <button class="btn btn-icon btn-secondary edit-expense-btn" data-expense-id="${expense.id}" title="Edit expense">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-icon btn-secondary delete-expense-btn" data-expense-id="${expense.id}" title="Delete expense">
                         <i class="fas fa-trash"></i>
                     </button>
                 </div>
             `;
             
             expenseList.appendChild(expenseItem);
+        });
+        
+        // Add event listeners for expense buttons
+        this.addExpenseButtonListeners();
+    }
+    
+    addExpenseButtonListeners() {
+        // Remove existing listeners to prevent duplicates
+        document.querySelectorAll('.edit-expense-btn').forEach(btn => {
+            btn.replaceWith(btn.cloneNode(true));
+        });
+        document.querySelectorAll('.delete-expense-btn').forEach(btn => {
+            btn.replaceWith(btn.cloneNode(true));
+        });
+        
+        // Add new listeners
+        document.querySelectorAll('.edit-expense-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const expenseId = parseInt(e.currentTarget.dataset.expenseId);
+                this.editExpense(expenseId);
+            });
+        });
+        
+        document.querySelectorAll('.delete-expense-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const expenseId = parseInt(e.currentTarget.dataset.expenseId);
+                this.deleteExpense(expenseId);
+            });
         });
     }
     
@@ -530,7 +659,6 @@ class SmartSaveApp {
         }
     }
     
-<<<<<<< HEAD
     // AI Chat System
     openAIChat(category, name) {
         this.currentChatCategory = category;
@@ -574,7 +702,15 @@ class SmartSaveApp {
             'transport': 'Transportation Consultant'
         };
         
-        document.getElementById('chatAssistantIcon').textContent = iconMap[category];
+        const chatIconElement = document.getElementById('chatAssistantIcon');
+        
+        // Handle special case for subscription category with image
+        if (category === 'subscription') {
+            chatIconElement.innerHTML = '<img src="./assets/Logo.png" alt="Phone Subscription" class="chat-assistant-image">';
+        } else {
+            chatIconElement.textContent = iconMap[category];
+        }
+        
         document.getElementById('chatAssistantName').textContent = name;
         document.getElementById('chatAssistantSpecialty').textContent = specialtyMap[category];
         
@@ -719,7 +855,7 @@ class SmartSaveApp {
         if (usage > 80) {
             return `You've used ${usage.toFixed(0)}% of your subscription budget. Consider switching to a cheaper plan or sharing a family plan to reduce costs.`;
         }
-        return `I can help with phone plans, data management, and subscription optimization. What specific aspect would you like advice on?`;
+        return `I can help with phone plans, data management, and subscription optimization. What specific aspect would you like to know?`;
     }
     
     getPersonalCareResponse(message, spent, budget, usage) {
@@ -793,8 +929,6 @@ class SmartSaveApp {
         return `I'm here to help with budgeting advice specific to this category. Could you be more specific about what you'd like help with?`;
     }
     
-=======
->>>>>>> e6fdfa6ed531aa275cd914d44eebb00427d5a2cc
     // Utility Functions
     showToast(message, type = 'success') {
         const toastContainer = document.getElementById('toastContainer');
