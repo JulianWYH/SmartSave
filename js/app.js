@@ -20,8 +20,6 @@ class SmartSaveApp {
         
         this.chart = null;
         this.isDarkMode = false;
-        this.currentChatCategory = null;
-        this.chatSessions = {}; // Store chat history for each category
         
         this.init();
     }
@@ -69,25 +67,6 @@ class SmartSaveApp {
         document.getElementById('modalOverlay').addEventListener('click', (e) => {
             if (e.target === e.currentTarget) {
                 this.hideBudgetModal();
-            }
-        });
-        
-        // AI Assistant chat modals
-        document.querySelectorAll('.ai-assistant-circle').forEach(circle => {
-            circle.addEventListener('click', (e) => this.openAIChat(e.currentTarget.dataset.category, e.currentTarget.dataset.name));
-        });
-        
-        document.getElementById('closeChatModal').addEventListener('click', () => this.closeChatModal());
-        document.getElementById('chatModalOverlay').addEventListener('click', (e) => {
-            if (e.target === e.currentTarget) {
-                this.closeChatModal();
-            }
-        });
-        
-        document.getElementById('sendChatBtn').addEventListener('click', () => this.sendChatMessage());
-        document.getElementById('chatInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                this.sendChatMessage();
             }
         });
         
@@ -551,6 +530,7 @@ class SmartSaveApp {
         }
     }
     
+<<<<<<< HEAD
     // AI Chat System
     openAIChat(category, name) {
         this.currentChatCategory = category;
@@ -821,6 +801,8 @@ class SmartSaveApp {
         return `I'm here to help with budgeting advice specific to this category. Could you be more specific about what you'd like help with?`;
     }
     
+=======
+>>>>>>> e6fdfa6ed531aa275cd914d44eebb00427d5a2cc
     // Utility Functions
     showToast(message, type = 'success') {
         const toastContainer = document.getElementById('toastContainer');
@@ -880,7 +862,6 @@ class SmartSaveApp {
         if (e.key === 'Escape') {
             this.hideBudgetModal();
             this.hideExpenseForm();
-            this.closeChatModal();
         }
     }
     

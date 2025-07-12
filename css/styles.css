@@ -678,7 +678,7 @@ section {
   box-shadow: var(--shadow-lg);
   padding: var(--spacing-md);
   position: relative;
-  margin-bottom: var(--spacing-sm);
+  margin: 0 auto var(--spacing-sm) auto;
 }
 
 .assistant-icon {
@@ -709,6 +709,7 @@ section {
   text-align: center;
   max-width: 160px;
   margin: 0 auto;
+  width: 100%;
 }
 
 /* Specific assistant colors */
@@ -732,46 +733,38 @@ section {
   background: linear-gradient(135deg, #06B6D4, #67E8F9);
 }
 
-/* Chat Modal Styles */
-.chat-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 3000;
-  opacity: 0;
-  visibility: hidden;
+/* AI Assistant Link Styles */
+.ai-assistant-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  width: 100%;
+  outline: none; /* Remove focus outline */
+}
+
+.ai-assistant-link:hover,
+.ai-assistant-link:focus,
+.ai-assistant-link:visited,
+.ai-assistant-link:active {
+  text-decoration: none;
+  color: inherit;
+  outline: none; /* Remove focus outline on all states */
+}
+
+.ai-assistant-link .ai-assistant-circle {
   transition: all var(--transition-normal);
 }
 
-.chat-modal-overlay.active {
-  opacity: 1;
-  visibility: visible;
-}
-
-.chat-modal {
-  background-color: var(--surface-color);
-  border-radius: var(--radius-lg);
+.ai-assistant-link:hover .ai-assistant-circle .assistant-circle {
+  transform: translateY(-5px) scale(1.05);
   box-shadow: var(--shadow-xl);
-  width: 90%;
-  max-width: 500px;
-  height: 80vh;
-  max-height: 600px;
-  display: flex;
-  flex-direction: column;
-  transform: scale(0.9);
-  transition: transform var(--transition-normal);
 }
 
-.chat-modal-overlay.active .chat-modal {
-  transform: scale(1);
+.ai-assistant-link:active .ai-assistant-circle .assistant-circle {
+  transform: translateY(-3px) scale(1.02);
 }
 
+<<<<<<< HEAD
 .chat-header {
   display: flex;
   align-items: center;
@@ -954,6 +947,11 @@ section {
     transform: scale(1);
     opacity: 1;
   }
+=======
+/* Dark mode adjustments for links */
+[data-theme="dark"] .ai-assistant-link .assistant-description {
+  color: var(--dark-text-secondary);
+>>>>>>> e6fdfa6ed531aa275cd914d44eebb00427d5a2cc
 }
 
 /* Buttons */
@@ -1291,6 +1289,7 @@ section {
     font-size: 0.65rem;
     max-width: 120px;
   }
+<<<<<<< HEAD
   
   .chat-modal {
     width: 95%;
@@ -1318,6 +1317,8 @@ section {
   .chat-input-container {
     padding: var(--spacing-md);
   }
+=======
+>>>>>>> e6fdfa6ed531aa275cd914d44eebb00427d5a2cc
 }
 
 @media (max-width: 480px) {
