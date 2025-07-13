@@ -51,6 +51,7 @@ class SmartSaveApp {
         
         // Budget modal
         document.getElementById('setBudgetBtn').addEventListener('click', () => this.showBudgetModal());
+        document.getElementById('clearBudgetBtn').addEventListener('click', () => this.clearBudget());
         document.getElementById('closeBudgetModal').addEventListener('click', () => this.hideBudgetModal());
         document.getElementById('cancelBudgetBtn').addEventListener('click', () => this.hideBudgetModal());
         document.getElementById('budgetForm').addEventListener('submit', (e) => this.saveBudget(e));
@@ -183,6 +184,20 @@ class SmartSaveApp {
             this.showToast('Budget saved successfully!', 'success');
         } else {
             this.showToast('Please enter a valid budget amount', 'error');
+        }
+    }
+    
+    clearBudget() {
+        if (confirm('Are you sure you want to clear your budget? This will reset all budget data and cannot be undone.')) {
+            // Reset budget and category budgets
+            this.data.budget = 0;
+            Object.keys(this.data.categories).forEach(category => {
+                this.data.categories[category].budget = 0;
+            });
+            
+            this.saveData();
+            this.updateUI();
+            this.showToast('Budget cleared successfully!', 'success');
         }
     }
     
